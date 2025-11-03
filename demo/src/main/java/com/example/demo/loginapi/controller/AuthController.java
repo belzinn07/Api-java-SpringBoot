@@ -31,7 +31,7 @@ public class AuthController {
         return authService.autenticar(request);
     }
 
-     @PostMapping("/register")
+     @PostMapping("/cadastrar")
     public LoginResponse register(@RequestBody Usuario usuario) {
         return authService.registrar(usuario);
     }
