@@ -2,6 +2,7 @@ package com.example.demo.loginapi.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.loginapi.model.CadastroRequest;
 import com.example.demo.loginapi.model.LoginRequest;
 import com.example.demo.loginapi.model.LoginResponse;
 import com.example.demo.loginapi.model.Usuario;
@@ -23,17 +24,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin(origins = "*")
 public class AuthController {
   
-    @Autowired
+    @Autowired//injeção de dependencia feita pelo spring de forma automatica
     private AuthService authService;
 
-    @PostMapping("/login")
-   public LoginResponse login(@RequestBody LoginRequest request) {
-        return authService.autenticar(request);
+    @PostMapping("/login")//mapeamento do endpoint
+   public LoginResponse login(@RequestBody LoginRequest request){
+        return authService.logar(request);
     }
 
      @PostMapping("/cadastrar")
-    public LoginResponse register(@RequestBody Usuario usuario) {
-        return authService.registrar(usuario);
+    public LoginResponse register(@RequestBody CadastroRequest request) {
+        return authService.registrar(request);
     }
     
     

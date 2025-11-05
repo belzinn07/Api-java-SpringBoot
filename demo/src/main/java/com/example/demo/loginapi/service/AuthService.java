@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.loginapi.model.CadastroRequest;
 import com.example.demo.loginapi.model.LoginRequest;
 import com.example.demo.loginapi.model.LoginResponse;
 import com.example.demo.loginapi.model.Usuario;
@@ -26,7 +27,7 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public LoginResponse autenticar(LoginRequest request) {
+    public LoginResponse logar(LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
 
         if (usuarioOpt.isEmpty()) {
@@ -43,12 +44,13 @@ public class AuthService {
         return new LoginResponse(true, token, "Login bem-sucedido");
     }
 
-    public LoginResponse registrar(Usuario novo) {
-        if (usuarioRepository.findByEmail(novo.getEmail()).isPresent()) {
+    public LoginResponse registrar(CadastroRequest request) {
+        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
             return new LoginResponse(false, null, "E-mail já cadastrado");
         }
 
-        Usuario salvo = usuarioRepository.save(novo);
+        Usuario novoUsuario = request.usuario();
+        Usuario salvo = usuarioRepository.save(novoUsuario);
         String token = gerarTokenJwt(salvo);
 
         return new LoginResponse(true, token, "Usuário cadastrado com sucesso");
@@ -59,12 +61,12 @@ public class AuthService {
         Key chave = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
-                .setSubject(usuario.getEmail())
-                .claim("id", usuario.getId())
+                .setSubject(usuario.getEmail())  
+                .claim("id", usuario.getId())  
                 .claim("nome", usuario.getNome())
-                .setIssuedAt(new Date())
+                .setIssuedAt(new Date()) 
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
                 .signWith(chave, SignatureAlgorithm.HS256)
-                .compact();
+                .compact();  
     }
 }
