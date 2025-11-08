@@ -24,8 +24,12 @@ public class AuthService {
 
     private static final String SECRET_KEY = "chave_super_secreta_12345678901234567890";
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    
+    private final UsuarioRepository usuarioRepository;
+
+    public AuthService( UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     public LoginResponse logar(LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
@@ -67,6 +71,6 @@ public class AuthService {
                 .setIssuedAt(new Date()) 
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
                 .signWith(chave, SignatureAlgorithm.HS256)
-                .compact();  
+                .compact();     
     }
 }
