@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.loginapi.model.CadastroRequest;
 import com.example.demo.loginapi.model.LoginRequest;
-import com.example.demo.loginapi.model.LoginResponse;
+import com.example.demo.loginapi.model.AuthResponse;
 import com.example.demo.loginapi.model.Usuario;
 import com.example.demo.loginapi.repository.UsuarioRepository;
 
@@ -27,33 +27,33 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public LoginResponse logar(LoginRequest request) {
+    public AuthResponse logar(LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
 
         if (usuarioOpt.isEmpty()) {
-            return new LoginResponse(false, null, "Usuário não encontrado");
+            return new AuthResponse(false, null, "Usuário não encontrado");
         }
 
         Usuario usuario = usuarioOpt.get();
 
         if (!usuario.getSenha().equals(request.getSenha())) {
-            return new LoginResponse(false, null, "Senha incorreta");
+            return new AuthResponse(false, null, "Senha incorreta");
         }
 
         String token = gerarTokenJwt(usuario);
-        return new LoginResponse(true, token, "Login bem-sucedido");
+        return new AuthResponse(true, token, "Login bem-sucedido");
     }
 
-    public LoginResponse registrar(CadastroRequest request) {
+    public AuthResponse registrar(CadastroRequest request) {
         if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
-            return new LoginResponse(false, null, "E-mail já cadastrado");
+            return new AuthResponse(false, null, "E-mail já cadastrado");
         }
 
         Usuario novoUsuario = request.usuario();
         Usuario salvo = usuarioRepository.save(novoUsuario);
         String token = gerarTokenJwt(salvo);
 
-        return new LoginResponse(true, token, "Usuário cadastrado com sucesso");
+        return new AuthResponse(true, token, "Usuário cadastrado com sucesso");
     }
 
 

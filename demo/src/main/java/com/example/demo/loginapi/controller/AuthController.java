@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.loginapi.model.CadastroRequest;
 import com.example.demo.loginapi.model.LoginRequest;
-import com.example.demo.loginapi.model.LoginResponse;
+import com.example.demo.loginapi.model.AuthResponse;
 import com.example.demo.loginapi.model.Usuario;
 
 import com.example.demo.loginapi.service.AuthService;
@@ -28,12 +28,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")//mapeamento do endpoint
-   public LoginResponse login(@RequestBody LoginRequest request){
+   public AuthResponse login(@RequestBody LoginRequest request){
         return authService.logar(request);
     }
 
      @PostMapping("/cadastrar")
-    public LoginResponse register(@RequestBody CadastroRequest request) {
+    public AuthResponse register(@RequestBody CadastroRequest request) {
         return authService.registrar(request);
     }
     
