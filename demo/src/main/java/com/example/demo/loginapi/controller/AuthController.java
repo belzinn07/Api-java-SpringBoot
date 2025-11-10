@@ -4,13 +4,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.loginapi.model.CadastroRequest;
 import com.example.demo.loginapi.model.LoginRequest;
-import com.example.demo.loginapi.model.LoginResponse;
+import com.example.demo.loginapi.model.AuthResponse;
 
 
 import com.example.demo.loginapi.service.AuthService;
 
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,20 +24,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin(origins = "*")
 public class AuthController {
   
-  
-    private final AuthService authService;
-
-    public AuthController( AuthService authService) {
-        this.authService = authService;
-    }
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/login")
-   public LoginResponse login(@RequestBody LoginRequest request){
+   public AuthResponse login(@RequestBody LoginRequest request){
         return authService.logar(request);
     }
 
      @PostMapping("/cadastrar")
-    public LoginResponse cadastrar(@RequestBody CadastroRequest request) {
+    public AuthResponse register(@RequestBody CadastroRequest request) {
         return authService.registrar(request);
     }
     
