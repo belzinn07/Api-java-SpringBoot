@@ -1,4 +1,4 @@
-package com.example.demo.loginapi;
+package com.example.demo.loginapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
