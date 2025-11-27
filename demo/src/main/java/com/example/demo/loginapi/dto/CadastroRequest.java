@@ -1,4 +1,6 @@
-package com.example.demo.loginapi.model;
+package com.example.demo.loginapi.dto;
+
+import com.example.demo.loginapi.model.Usuario;
 
 public class CadastroRequest {
     private String nome;

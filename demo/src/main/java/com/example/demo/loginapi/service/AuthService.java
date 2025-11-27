@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.loginapi.model.CadastroRequest;
-import com.example.demo.loginapi.model.LoginRequest;
-import com.example.demo.loginapi.model.AuthResponse;
+import com.example.demo.loginapi.dto.AuthResponse;
+import com.example.demo.loginapi.dto.CadastroRequest;
+import com.example.demo.loginapi.dto.LoginRequest;
 import com.example.demo.loginapi.model.Usuario;
 import com.example.demo.loginapi.repository.UsuarioRepository;
 

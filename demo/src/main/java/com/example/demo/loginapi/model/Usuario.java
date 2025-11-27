@@ -1,5 +1,6 @@
+package com.example.demo.loginapi.model;
 import jakarta.persistence.*;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "usuarios")

@@ -2,11 +2,9 @@ package com.example.demo.loginapi.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.loginapi.model.CadastroRequest;
-import com.example.demo.loginapi.model.LoginRequest;
-import com.example.demo.loginapi.model.AuthResponse;
-
-
+import com.example.demo.loginapi.dto.AuthResponse;
+import com.example.demo.loginapi.dto.CadastroRequest;
+import com.example.demo.loginapi.dto.LoginRequest;
 import com.example.demo.loginapi.service.AuthService;
 
 
