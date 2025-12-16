@@ -23,7 +23,7 @@ public class UsuarioDetailsService implements UserDetailsService {
         Usuario usuario = repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
 
- 
+        
         var authorities = java.util.Arrays.stream(
                 usuario.getRoles() == null ? new String[]{"ROLE_USER"} : usuario.getRoles().split(","))
                 .map(org.springframework.security.core.authority.SimpleGrantedAuthority::new)

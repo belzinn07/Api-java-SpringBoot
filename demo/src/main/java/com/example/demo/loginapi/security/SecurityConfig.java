@@ -1,4 +1,4 @@
-package com.example.demo.loginapi.config;
+package com.example.demo.loginapi.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.example.demo.loginapi.security.JwtFilter;
-import com.example.demo.loginapi.security.JwtService;
-import com.example.demo.loginapi.security.UsuarioDetailsService;
 
 
 @Configuration
@@ -37,7 +33,7 @@ public class SecurityConfig {
           .csrf(csrf -> csrf.disable())
           .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .authorizeHttpRequests(auth -> auth
-                  .requestMatchers("/api/login/**", "/h2-console").permitAll()
+                  .requestMatchers("/api/login/**","api/cadastrar/**", "/h2-console").permitAll()
                   .anyRequest().authenticated()
           );
 
