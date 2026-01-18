@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 @Service
-public class JwtService {
+public class JwtService implements TokenService{
 
     private final Key key;
     private final long expiration;
@@ -21,6 +21,7 @@ public class JwtService {
         this.expiration = expiration;
     }
 
+    @Override
     public String gerarToken(String subject) {
         Date agora = new Date();
         Date expiracao = new Date(agora.getTime() + expiration);
@@ -33,16 +34,18 @@ public class JwtService {
                 .compact();
     }
 
+    @Override
     public boolean validarToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-       
+                       
             return false;
         }
     }
-
+     
+    
     public String getSubject(String token) { 
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
             return claims.getSubject();

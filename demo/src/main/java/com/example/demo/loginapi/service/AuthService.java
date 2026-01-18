@@ -1,7 +1,5 @@
 package com.example.demo.loginapi.service;
 
-import java.util.Optional;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +11,7 @@ import com.example.demo.loginapi.dto.LoginRequest;
 import com.example.demo.loginapi.model.Usuario;
 import com.example.demo.loginapi.repository.UsuarioRepository;
 import com.example.demo.loginapi.security.JwtService;
+import com.example.demo.loginapi.security.TokenService;
 
 @Service
 public class AuthService {
@@ -20,16 +19,16 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
     public AuthService(UsuarioRepository usuarioRepository,
                        PasswordEncoder passwordEncoder,
                        AuthenticationManager authenticationManager,
-                       JwtService jwtService) {
+                       TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+        this.tokenService = tokenService;
     }
 
     public AuthResponse logar(LoginRequest request) {
@@ -41,7 +40,7 @@ public class AuthService {
             )
         );
 
-        String token = jwtService.gerarToken(request.getEmail());
+        String token = tokenService.gerarToken(request.getEmail());
         return new AuthResponse(true, token, "Login realizado com sucesso");
     }
 
@@ -59,7 +58,7 @@ public class AuthService {
 
         usuarioRepository.save(usuario);
 
-        String token = jwtService.gerarToken(usuario.getEmail());
+        String token = tokenService.gerarToken(usuario.getEmail());
         return new AuthResponse(true, token, "Usuário cadastrado com sucesso");
     }
 }

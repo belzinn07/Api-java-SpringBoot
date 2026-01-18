@@ -14,11 +14,11 @@ import java.io.IOException;
 
 public class JwtFilter extends OncePerRequestFilter{
    
-    private final JwtService jwtService;
+    private final TokenService tokenService;
     private final UsuarioDetailsService userDetailsService;
 
-    public JwtFilter(JwtService jwtService, UsuarioDetailsService userDetailsService) {
-        this.jwtService = jwtService;
+    public JwtFilter(TokenService tokenService, UsuarioDetailsService userDetailsService) {
+        this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
     }
     
@@ -29,10 +29,10 @@ public class JwtFilter extends OncePerRequestFilter{
            final String prefix = "Bearer";
 
            if (header != null && header.startsWith(prefix)) {
-                String token = header.substring(prefix.length());
+                String token = header.substring(7);
                 
-                if (jwtService.validarToken(token)) {
-                    String email = jwtService.getSubject(token);
+                if (tokenService.validarToken(token)) {
+                    String email = tokenService.getSubject(token);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
                     var auth = new UsernamePasswordAuthenticationToken( 

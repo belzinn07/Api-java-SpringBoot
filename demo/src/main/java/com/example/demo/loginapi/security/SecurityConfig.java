@@ -3,8 +3,6 @@ package com.example.demo.loginapi.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,17 +16,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final JwtService jwtService;
+    private final TokenService tokenService;
     private final UsuarioDetailsService usuarioDetailsService;
 
-    public SecurityConfig(JwtService jwtService, UsuarioDetailsService usuarioDetailsService) {
-        this.jwtService = jwtService;
+    public SecurityConfig(TokenService tokenService, UsuarioDetailsService usuarioDetailsService) {
+        this.tokenService = tokenService;
         this.usuarioDetailsService = usuarioDetailsService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        JwtFilter jwtFilter = new JwtFilter(jwtService, usuarioDetailsService);
+        JwtFilter jwtFilter = new JwtFilter(tokenService, usuarioDetailsService);
         http
           .csrf(csrf -> csrf.disable())
           .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
